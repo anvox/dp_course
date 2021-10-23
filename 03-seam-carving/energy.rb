@@ -16,11 +16,10 @@ def compute_energy(pixels)
       end
     end
   end
-  [max_energy, energies]
+  [energies, max_energy]
 end
 
-def energy_to_colors(pixels)
-  max_energy, energies = compute_energy(pixels)
+def energy_to_colors(energies, max_energy)
   energies.map do |row|
     row.map do |cell|
       color = ((cell.to_f / max_energy)*255).round

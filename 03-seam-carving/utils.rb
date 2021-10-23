@@ -47,3 +47,11 @@ def write_array_into_image(pixels, filename)
                                           8, "rgb", "jpg")
   image.write(filename)
 end
+
+def highlight_seam(pixels, seam)
+  seam.each_with_index do |x, y|
+    pixels[y][x] = Color.new(255, 0, 0)
+  end
+
+  pixels
+end
