@@ -47,6 +47,7 @@ def compute_vertical_seam(energies)
 end
 
 def remove_vertical_seam(pixels, seam)
+  pixels = clone_frame(pixels)
   pixels.each_with_index.map do |row, y|
     row.delete_at(seam[y])
     row
@@ -54,6 +55,7 @@ def remove_vertical_seam(pixels, seam)
 end
 
 def highlight_vertical_seam(pixels, seam)
+  pixels = clone_frame(pixels)
   seam.each_with_index do |x, y|
     pixels[y][x] = Color.new(255, 0, 0)
   end
