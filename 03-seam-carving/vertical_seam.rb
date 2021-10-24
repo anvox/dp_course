@@ -45,3 +45,18 @@ def compute_vertical_seam(energies)
 
   min_score_path.reverse
 end
+
+def remove_vertical_seam(pixels, seam)
+  pixels.each_with_index.map do |row, y|
+    row.delete_at(seam[y])
+    row
+  end
+end
+
+def highlight_vertical_seam(pixels, seam)
+  seam.each_with_index do |x, y|
+    pixels[y][x] = Color.new(255, 0, 0)
+  end
+
+  pixels
+end
