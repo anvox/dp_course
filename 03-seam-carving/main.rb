@@ -6,14 +6,15 @@ filename = ARGV[0]
 direction = ARGV[1] || 'vertical'
 
 pixels = read_image_into_array("#{filename}.jpg")
-energies, max_energy = compute_energy(pixels)
-vertical_seam = compute_vertical_seam(energies)
 
-energy_colors = energy_to_colors(energies, max_energy)
-write_array_into_image(energy_colors, "#{filename}-energy.jpg")
+image_energy = Energy.new(pixels)
+seam_calculator = VerticalSeam.new(image_energy.energies)
 
-highlight_pixels = highlight_vertical_seam(pixels, vertical_seam)
-write_array_into_image(highlight_pixels, "#{filename}-highlighted.jpg")
+write_array_into_image(image_energy.to_colors, "#{filename}-energy.jpg")
+write_array_into_image(seam_calculator.highlight(pixels), "#{filename}-highlighted.jpg")
 
-stripped_pixels = remove_vertical_seam(pixels, vertical_seam)
-write_array_into_image(stripped_pixels, "#{filename}-stripped.jpg")
+200.times do
+  pixels = seam_calculator.remove!(pixels)
+end
+
+write_array_into_image(pixels, "#{filename}-stripped.jpg")

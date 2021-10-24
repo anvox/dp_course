@@ -47,3 +47,11 @@ def write_array_into_image(pixels, filename)
                                           8, "rgb", "jpg")
   image.write(filename)
 end
+
+def clone_frame(pixels)
+  pixels.map do |row|
+    row.map do |cell|
+      cell.dup
+    end
+  end
+end
