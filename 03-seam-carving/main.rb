@@ -12,4 +12,9 @@ seam_calculator = VerticalSeam.new(image_energy.energies)
 
 write_array_into_image(image_energy.to_colors, "#{filename}-energy.jpg")
 write_array_into_image(seam_calculator.highlight(pixels), "#{filename}-highlighted.jpg")
-write_array_into_image(seam_calculator.remove(pixels), "#{filename}-stripped.jpg")
+
+200.times do
+  pixels = seam_calculator.remove!(pixels)
+end
+
+write_array_into_image(pixels, "#{filename}-stripped.jpg")

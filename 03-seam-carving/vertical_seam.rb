@@ -25,8 +25,10 @@ class VerticalSeam
     pixels
   end
 
-  def remove!
-    # TODO: [AV] Implement: Remove seam from energy map
+  def remove!(pixels = nil)
+    pixels = remove(pixels) if pixels
+    remove_current_seam
+    pixels
   end
 
   def seam
@@ -36,6 +38,14 @@ class VerticalSeam
   private
 
   attr_reader :scores, :energies, :pixels
+
+  def remove_current_seam
+    energies.each_with_index.map do |row, y|
+      row.delete_at(seam[y])
+      row
+    end
+    @seam = nil
+  end
 
   def score(x, y, energy)
     energy + [
