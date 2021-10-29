@@ -7,7 +7,7 @@ require_relative './seam_cropper'
 
 filename = ARGV[0]
 pixels = read_image_into_array("#{filename}.jpg")
-# direction = ARGV[1] || 'vertical'
+direction = (ARGV[1] || 'vertical').to_sym
 
 cropper = SeamCropper.new(pixels)
 20.times do |i|
@@ -16,11 +16,11 @@ cropper = SeamCropper.new(pixels)
     write_array_into_image(seam_calculator.energy_map, "#{filename}-energy-#{i}.jpg")
   end
 
-  seam = seam_calculator.execute
+  seam = seam_calculator.execute(direction)
   if ENV['DEBUG'] == '1'
-    write_array_into_image(cropper.highlight(seam), "#{filename}-highlighted-#{i}.jpg")
+    write_array_into_image(cropper.highlight(seam, direction), "#{filename}-highlighted-#{i}.jpg")
   end
 
-  pixels = cropper.crop!(seam)
+  pixels = cropper.crop!(seam, direction)
 end
 write_array_into_image(pixels, "#{filename}-cropped.jpg")
