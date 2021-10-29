@@ -3,15 +3,6 @@ class Energy
     @pixels = pixels
   end
 
-  def to_colors
-    energies.map do |row|
-      row.map do |cell|
-        color = ((cell.to_f / max_energy)*255).round
-        Color.new(color, color, color)
-      end
-    end
-  end
-
   def max_energy
     @max_energy ||= compute_max_energy
   end
