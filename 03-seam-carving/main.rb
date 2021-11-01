@@ -1,20 +1,26 @@
+if ENV['DEBUG'] == '1'
+  require 'pry-byebug'
+end
 require_relative './utils'
-require_relative './energy'
-require_relative './vertical_seam'
+require_relative './seam_calculator'
+require_relative './seam_cropper'
 
 filename = ARGV[0]
-direction = ARGV[1] || 'vertical'
-
 pixels = read_image_into_array("#{filename}.jpg")
+direction = (ARGV[1] || 'vertical').to_sym
 
-image_energy = Energy.new(pixels)
-seam_calculator = VerticalSeam.new(image_energy.energies)
+cropper = SeamCropper.new(pixels)
+30.times do |i|
+  seam_calculator = SeamCalculator.new(pixels)
+  if ENV['DEBUG'] == '1'
+    write_array_into_image(seam_calculator.energy_map, "#{filename}-energy-#{i}.jpg")
+  end
 
-write_array_into_image(image_energy.to_colors, "#{filename}-energy.jpg")
-write_array_into_image(seam_calculator.highlight(pixels), "#{filename}-highlighted.jpg")
+  seam = seam_calculator.execute(direction)
+  if ENV['DEBUG'] == '1'
+    write_array_into_image(cropper.highlight(seam, direction), "#{filename}-highlighted-#{i}.jpg")
+  end
 
-200.times do
-  pixels = seam_calculator.remove!(pixels)
+  pixels = cropper.crop!(seam, direction)
 end
-
-write_array_into_image(pixels, "#{filename}-stripped.jpg")
+write_array_into_image(pixels, "#{filename}-cropped.jpg")
