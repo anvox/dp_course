@@ -1,5 +1,5 @@
 test: clean
-	bundle exec ruby main.rb surfer
+# 	bundle exec ruby main.rb surfer
 	bundle exec ruby main.rb arch horizontal
 clean:
 	rm -f *-energy.jpg *-energy-*.jpg \

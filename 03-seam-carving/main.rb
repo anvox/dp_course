@@ -10,7 +10,7 @@ pixels = read_image_into_array("#{filename}.jpg")
 direction = (ARGV[1] || 'vertical').to_sym
 
 cropper = SeamCropper.new(pixels)
-20.times do |i|
+30.times do |i|
   seam_calculator = SeamCalculator.new(pixels)
   if ENV['DEBUG'] == '1'
     write_array_into_image(seam_calculator.energy_map, "#{filename}-energy-#{i}.jpg")
